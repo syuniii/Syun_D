@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Detail Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 공통 사이드바 -->
+    <div id="sidebar-container"></div>
+
+    <main class="content">
+        <div class="portfolio-grid">
+
+            <!-- <a href="#" class="portfolio-item">
+                <div class="image-area">
+                    <img src="이미지경로.jpg" alt="썸네일">
+                </div>
+                <div class="text-area">
+                    <h3>타이틀</h3>
+                    <p>Category / Description</p>
+                </div>
+            </a> -->
+
+            <a href="/sub_page/detail_page/boboni.html" class="portfolio-item">
+                <div class="image-area">
+                    <img src="./img/detail_page/boboni.png" alt="썸네일">
+                </div>
+                <div class="text-area">
+                    <h3>보보니 지퍼형 압축 파우치</h3>
+                    <p>리빙 / 수납</p>
+                </div>
+            </a>
+
+            <a href="/sub_page/detail_page/miseenscene.html" class="portfolio-item">
+                <div class="image-area">
+                    <img src="./img/detail_page/miseenscene.png" alt="썸네일">
+                </div>
+                <div class="text-area">
+                    <h3>미쟝센 컬링 에센스 2X</h3>
+                    <p>뷰티 / 헤어</p>
+                </div>
+            </a>               
+            
+            <a href="/sub_page/detail_page/speedo.html" class="portfolio-item">
+                <div class="image-area">
+                    <img src="./img/detail_page/speedo.png" alt="썸네일">
+                </div>
+                <div class="text-area">
+                    <h3>스피도 써니 G 마리너 미러 수경</h3>
+                    <p>패션 / 스포츠</p>
+                </div>
+            </a>
+
+            <a href="/sub_page/detail_page/dalgolang.html" class="portfolio-item">
+                <div class="image-area">
+                    <img src="./img/detail_page/dalgolang.png" alt="썸네일">
+                </div>
+                <div class="text-area">
+                    <h3>달고랭 알배기 알배추</h3>
+                    <p>식품 / 채소</p>
+                </div>
+            </a>            
+
+            <a href="/sub_page/detail_page/dalcommath.html" class="portfolio-item">
+                <div class="image-area">
+                    <img src="./img/detail_page/dalcommath.png" alt="썸네일">
+                </div>
+                <div class="text-area">
+                    <h3>유아 로드맵 특강</h3>
+                    <p>교육 / 유아교육</p>
+                </div>
+            </a>            
+            
+        </div>
+    </main>
+
+    <script>
+        // 현재 폴더 깊이를 자동 계산하는 함수
+        function getRootPath() {
+            const pathParts = window.location.pathname.split('/');
+            const fileIndex = pathParts.indexOf('Syun_D');
+            
+            if (fileIndex !== -1) {
+                const depth = pathParts.length - fileIndex - 2;
+                return depth > 0 ? '../'.repeat(depth) : '';
+            }
+            const depth = pathParts.length - 2;
+            return depth > 0 ? '../'.repeat(depth) : '';
+        }
+
+        // 공통 요소를 불러오고 경로를 치환하는 함수
+        function includeComponent(targetId, filename) {
+            const rootPath = getRootPath();
+            const filePath = `${rootPath}components/${filename}`;
+
+            fetch(filePath)
+                .then(response => {
+                    if (!response.ok) throw new Error('네트워크 응답에 문제가 있습니다.');
+                    return response.text();
+                })
+                .then(data => {
+                    const 주입할데이터 = data.replace(/\{\{ROOT\}\}/g, rootPath);
+                    document.getElementById(targetId).innerHTML = 주입할데이터;
+
+                    if (targetId === 'sidebar-container') { 
+                        initHamburgerMenu();
+                        initActiveMenu(); // 메인이든 서브든 알아서 매칭해줍니다.
+                    }
+                })
+                .catch(error => console.error(`${filePath} 로드 실패:`, error));
+        }
+
+        // 햄버거 메뉴 작동 함수
+        function initHamburgerMenu() {
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const sidebar = document.querySelector('.sidebar');
+
+            if (hamburgerBtn && sidebar) {
+                hamburgerBtn.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                    this.classList.toggle('active'); 
+                });
+            }
+        }
+
+        // 현재 페이지 및 폴더 위치 자동 인식 함수
+        function initActiveMenu() {
+            const pathParts = window.location.pathname.split('/');
+            const currentPage = pathParts.pop() || 'index.html';
+            const parentFolder = pathParts.pop() || '';
+
+            let targetPage = currentPage;
+
+            // 서브 폴더 및 메인 파일 통합 조건 매칭
+            if (parentFolder === 'detail_page' || currentPage === 'detail_page.html') {
+                targetPage = 'detail_page.html';
+            } else if (parentFolder === 'graphic_design' || currentPage === 'graphic_design.html') {
+                targetPage = 'graphic_design.html';
+            } else if (parentFolder === 'digital_media' || currentPage === 'digital_media.html') {
+                targetPage = 'digital_media.html';
+            } else if (parentFolder === 'ai_artwork' || currentPage === 'ai_artwork.html') {
+                targetPage = 'ai_artwork.html';
+            }
+
+            const menuLinks = document.querySelectorAll('.sidebar .menu a');
+
+            menuLinks.forEach(link => {
+                const linkPage = link.getAttribute('href').split('/').pop();
+
+                if (targetPage === linkPage) {
+                    if (link.closest('.submenu')) {
+                        link.classList.add('active-sub');
+                    } else {
+                        link.classList.add('active');
+                    }
+                }
+            });
+        }
+
+        // 이미지 모달 작동 함수 (메인 페이지들 중 모달이 없는 곳은 자동으로 무시되므로 그대로 두셔도 됩니다)
+        function initImageModal() {
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const closeBtn = document.getElementById('closeModal');
+
+            if (portfolioItems.length > 0 && modal && modalImg && closeBtn) {
+                portfolioItems.forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault(); 
+                        const imgElement = this.querySelector('.image-area img');
+                        if (imgElement) {
+                            modalImg.src = imgElement.src; 
+                            modal.classList.add('active'); 
+                        }
+                    });
+                });
+
+                closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.classList.remove('active');
+                });
+            }
+        }
+
+        // DOM 구조 완료 후 실행
+        window.addEventListener('DOMContentLoaded', () => {
+            includeComponent('sidebar-container', 'sidebar.html');
+            initImageModal(); 
+        });
+    </script>
+
+</body>
+    
+</body>
+</html>
