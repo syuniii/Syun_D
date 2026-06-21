@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Web & UI</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -24,6 +25,9 @@
             </a>
         </div>
     </main>
+
+    <!-- 푸터 -->
+    <div id="footer-container"></div>
 
     <script>
         // 현재 폴더 깊이를 자동 계산하는 함수
@@ -137,6 +141,7 @@
         // DOM 구조 완료 후 실행
         window.addEventListener('DOMContentLoaded', () => {
             includeComponent('sidebar-container', 'sidebar.html');
+            includeComponent('footer-container', 'footer.html');
             initImageModal(); 
         });
     </script>

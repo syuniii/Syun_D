@@ -18,6 +18,7 @@ body {
     display: flex;
     background-color: #050505;
     color: #fff;
+    flex-direction: column;
 }
 
 /* =========================================
@@ -33,7 +34,7 @@ body {
     display: flex;
     flex-direction: column;
     z-index: 10;
-    gap: 100px;
+    gap: 70px;
 }
 
 .logo h1 {
@@ -101,11 +102,25 @@ body {
     transition: letter-spacing 0.2s ease, color 0.2s ease;
 }
 
-.social-icons span {
-    margin-right: 15px;
-    font-size: 14px;
-    cursor: pointer;
-    color: #999;
+/* SNS 영역 전체 스타일 */
+.sidebar-sns {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    padding: 20px 0;
+}
+
+/* SNS 아이콘 링크 스타일 */
+.sidebar-sns a {
+    color: #adadad;                /* 기본 아이콘 색상 (기존 사이드바 폰트 색상에 맞춤) */
+    font-size: 20px;            /* 아이콘 크기 */
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+/* 마우스 호버 시 효과 */
+.sidebar-sns a:hover {
+    color: #ffffff;             /* 호버 시 변경될 포인트 색상 */
 }
 
 /* =========================================
@@ -507,6 +522,48 @@ a.portfolio-item:hover .image-area img {
     position: absolute;
     left: 0;
     top: 0;
+}
+
+/* ==========================================
+   Footer Styles & Responsive Design
+   ========================================== */
+
+/* 기본 데스크톱 스타일 */
+.portfolio-footer {
+    width: 100%;
+    border-top: 1px dotted #333;
+    padding: 30px 0;
+    margin-top: 40px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.portfolio-footer .copyright {
+    font-family: inherit;
+    font-size: 11pt;
+    color: #a3a3a3;
+    font-weight: 300;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* 반응형 모바일 스타일 (태블릿 및 모바일 화면) */
+@media (max-width: 768px) {
+    .portfolio-footer {
+        padding: 20px 0;
+        margin-top: 40px; /* 모바일에서는 여백 축소 */
+    }
+    
+    .portfolio-footer .copyright {
+        font-size: 10pt; /* 작은 화면에 맞게 폰트 크기 축소 */
+        padding: 0 10px;
+        word-break: keep-all; /* 한글이나 영문 단어가 중간에 끊기지 않도록 설정 */
+    }
 }
 
 /* =========================================
